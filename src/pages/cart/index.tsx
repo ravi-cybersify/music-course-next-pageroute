@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const data = useSelector((state:{products:Data[]})=>state.products)
+  const data = useSelector((state:{ product: { products: Data[] } })=>state.product.products)
   const handleRemove = (id:number)=>{
       dispatch(removeProduct(id))
   }

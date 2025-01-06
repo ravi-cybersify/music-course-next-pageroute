@@ -11,16 +11,20 @@ export interface Data {
     image: string;
   }
 
-interface ProductProps {
+export interface ProductProps {
   products: Data[];
+  wishlist: Data[];
 }
 
-
-// const cartData = window.localStorage.getItem('cart');
-// const fetchData:Data[] = cartData ? JSON.parse(cartData) : [];
+let fetchData:Data[] = [];
+if(typeof window !== 'undefined'){
+  const cartData = window.localStorage.getItem('cart');
+  fetchData = cartData ? JSON.parse(cartData) : [];
+}
 
 const initialState: ProductProps = {
-  products: [],
+  products: fetchData || [],
+  wishlist: []
 };
 
 const productSlice = createSlice({
@@ -31,6 +35,10 @@ const productSlice = createSlice({
       state.products.push(action.payload); 
       window.localStorage.setItem('cart', JSON.stringify(state.products))
     },
+    addWishlist(state,action: PayloadAction<Data>){
+        state.wishlist.push(action.payload);
+        window.localStorage.setItem('wishlist', JSON.stringify(state.wishlist))
+    },
     removeProduct(state, action: PayloadAction<number>) {
       state.products = state.products.filter(
         (product) => product.id !== action.payload
@@ -40,6 +48,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct } = productSlice.actions;
+export const { addProduct,addWishlist, removeProduct } = productSlice.actions;
 
 export default productSlice.reducer;

@@ -1,7 +1,7 @@
 import Card from '@/components/Card'
 import React from 'react'
 
-const product = () => {
+const Product = () => {
   return (
     <div>
       <h1 className='text-left ml-20 mt-6 text-4xl font-bold '>Product Store</h1>
@@ -10,4 +10,4 @@ const product = () => {
   )
 }
 
-export default product
+export default Product

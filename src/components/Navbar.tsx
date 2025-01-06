@@ -1,12 +1,24 @@
-
 import { Data } from "@/Redux/productSlice";
+import { removeUser, UserProps } from "@/Redux/userSlice";
 import Link from "next/link";
 import React from "react";
 import { FaCartShopping } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { GoHeart } from "react-icons/go";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
-  const cartData = useSelector((state:{products:Data[]}) => state.products);
+  const dispatch = useDispatch();
+  const cartData = useSelector(
+    (state: { product: { products: Data[] } }) => state.product.products
+  );
+  const loggedUser = useSelector(
+    (state: { user: { User: UserProps[] } }) => state.user.User
+  );
+  console.log(loggedUser, "cartdata");
+
+  const handleLogout = () => {
+    dispatch(removeUser());
+  };
   return (
     <nav className="block w-full px-4 py-2 mx-auto text-black shadow-md lg:px-8 lg:py-3 mt-1">
       <div className="flex flex-wrap items-center justify-between mx-20 text-gray-100">
@@ -23,10 +35,14 @@ const Navbar = () => {
                 <Link href="/">Home</Link>
               </li>
               <li className="flex items-center p-1 text-sm gap-x-4 text-black">
-                <Link href="/product">Products</Link>
+                <Link
+                  href={`${loggedUser[0]?.username ? "/product" : "/login"}`}
+                >
+                  Products
+                </Link>
               </li>
               <li className="flex items-center p-1 text-sm gap-x-4 text-black">
-                <Link href="/aboutus">About</Link>
+                <Link href="/about">About</Link>
               </li>
               <li className="flex items-center p-1 text-sm gap-x-4 text-black">
                 <Link href="/contact">Contact us</Link>
@@ -35,28 +51,68 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="relative inline-flex">
-          {/* Cart Button */}
-          <Link href={'/cart'}>
-          <button
-            className="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button"
-            
-          >
-            <FaCartShopping size={20} />
-          </button>
+        <div className="flex gap-5 items-center">
+          <div className="inline-flex">
+            <Link href={`${loggedUser[0]?.username ? "/wishlist" : "/login"}`}>
+              <button
+                className="relative right-6 rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button"
+              >
+                <GoHeart size={20} />
+              </button>
+            </Link>
+          </div>
+          <div className=" inline-flex">
+            {/* Cart Button */}
+            <Link href={`${loggedUser[0]?.username ? "/cart" : "/login"}`}>
+              <button
+                className="relative right-6 rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="button"
+              >
+                <FaCartShopping size={20} />
+              </button>
 
-          {/* Cart Counter */}
-          <span className="absolute top-0.5 right-0.5 grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-blue-600 py-1 px-1 text-xs text-white">
-          {cartData.length}
-          </span>
-          </Link>
-
-         
+              {/* Cart Counter */}
+              {loggedUser[0]?.username && (
+                <span className="absolute top-5  grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-blue-600 py-1 px-1 text-xs text-white">
+                  {cartData.length}
+                </span>
+              )}
+            </Link>
+          </div>
+          {loggedUser[0]?.username ? (
+            <Link href={"/login"}>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="text-black font-semibold"
+              >
+                Logout
+              </button>
+            </Link>
+          ) : (
+            <div className="">
+              <Link href={"/login"}>
+                <button
+                  type="button"
+                  onClick={() => console.log("onclicjdj")}
+                  className="text-black font-semibold"
+                >
+                  Login
+                </button>
+              </Link>
+              <span className="text-black font-semibold">/</span>
+              <Link href={"/register"}>
+                <button type="button" className="text-black font-semibold">
+                  Sign up
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
