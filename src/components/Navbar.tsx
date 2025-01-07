@@ -1,6 +1,7 @@
 import { Data } from "@/Redux/productSlice";
 import { removeUser, UserProps } from "@/Redux/userSlice";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { FaCartShopping } from "react-icons/fa6";
 import { GoHeart } from "react-icons/go";
@@ -8,13 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const pathname = usePathname();
   const cartData = useSelector(
-    (state: { product: { products: Data[] } }) => state.product.products
+    (state: { product: { carts: Data[] } }) => state.product.carts
   );
+  const wishlistData = useSelector(
+    (state: { product: { wishlist: Data[] } }) => state.product.wishlist
+  );
+
   const loggedUser = useSelector(
     (state: { user: { User: UserProps[] } }) => state.user.User
   );
-  console.log(loggedUser, "cartdata");
+  // console.log(loggedUser, "cartdata");
 
   const handleLogout = () => {
     dispatch(removeUser());
@@ -31,20 +37,36 @@ const Navbar = () => {
           </Link>
           <div className="hidden lg:block">
             <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-12">
-              <li className="flex items-center p-1 text-sm gap-x-4 text-black">
+              <li
+                className={`flex items-center p-1 text-sm gap-x-4 ${
+                  pathname === "/" ? "text-blue-800" : "text-black"
+                }`}
+              >
                 <Link href="/">Home</Link>
               </li>
-              <li className="flex items-center p-1 text-sm gap-x-4 text-black">
+              <li
+                className={`flex items-center p-1 text-sm gap-x-4 ${
+                  pathname === "/product" ? "text-blue-800" : "text-black"
+                }`}
+              >
                 <Link
                   href={`${loggedUser[0]?.username ? "/product" : "/login"}`}
                 >
                   Products
                 </Link>
               </li>
-              <li className="flex items-center p-1 text-sm gap-x-4 text-black">
+              <li
+                className={`flex items-center p-1 text-sm gap-x-4 ${
+                  pathname === "/about" ? "text-blue-800" : "text-black"
+                }`}
+              >
                 <Link href="/about">About</Link>
               </li>
-              <li className="flex items-center p-1 text-sm gap-x-4 text-black">
+              <li
+                className={`flex items-center p-1 text-sm gap-x-4 ${
+                  pathname === "/contact" ? "text-blue-800" : "text-black"
+                }`}
+              >
                 <Link href="/contact">Contact us</Link>
               </li>
             </ul>
@@ -60,6 +82,12 @@ const Navbar = () => {
               >
                 <GoHeart size={20} />
               </button>
+
+              {loggedUser[0]?.username && (
+                <span className="absolute top-5  grid min-h-[24px] min-w-[24px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-blue-600 py-1 px-1 text-xs text-white">
+                  {wishlistData.length}
+                </span>
+              )}
             </Link>
           </div>
           <div className=" inline-flex">
@@ -85,25 +113,31 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="text-black font-semibold"
+                className="text-red-500 font-bold"
               >
                 Logout
               </button>
             </Link>
           ) : (
-            <div className="">
+            <div className="flex gap-1">
               <Link href={"/login"}>
                 <button
                   type="button"
-                  onClick={() => console.log("onclicjdj")}
-                  className="text-black font-semibold"
+                  className={`font-semibold ${
+                    pathname === "/login" ? "text-blue-500" : "text-black"
+                  }`}
                 >
                   Login
                 </button>
               </Link>
               <span className="text-black font-semibold">/</span>
               <Link href={"/register"}>
-                <button type="button" className="text-black font-semibold">
+                <button
+                  type="button"
+                  className={`font-semibold ${
+                    pathname === "/register" ? "text-blue-500" : "text-black"
+                  }`}
+                >
                   Sign up
                 </button>
               </Link>

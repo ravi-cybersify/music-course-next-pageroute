@@ -12,7 +12,7 @@ export interface Data {
   }
 
 export interface ProductProps {
-  products: Data[];
+  carts: Data[];
   wishlist: Data[];
 }
 
@@ -21,33 +21,45 @@ if(typeof window !== 'undefined'){
   const cartData = window.localStorage.getItem('cart');
   fetchData = cartData ? JSON.parse(cartData) : [];
 }
+let wishlistData:Data[] = [];
+if(typeof window !== 'undefined'){
+  const listData = window.localStorage.getItem('wishlist');
+  wishlistData = listData ? JSON.parse(listData) : [];
+}
 
 const initialState: ProductProps = {
-  products: fetchData || [],
-  wishlist: []
+  carts: fetchData || [],
+  wishlist: wishlistData || [],
 };
 
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    addProduct(state, action: PayloadAction<Data>) {
-      state.products.push(action.payload); 
-      window.localStorage.setItem('cart', JSON.stringify(state.products))
+    addCart(state, action: PayloadAction<Data>) {
+      state.carts.push(action.payload); 
+      window.localStorage.setItem('cart', JSON.stringify(state.carts))
     },
+   
     addWishlist(state,action: PayloadAction<Data>){
         state.wishlist.push(action.payload);
         window.localStorage.setItem('wishlist', JSON.stringify(state.wishlist))
     },
-    removeProduct(state, action: PayloadAction<number>) {
-      state.products = state.products.filter(
+    removeWishlist(state, action: PayloadAction<number>) {
+      state.wishlist = state.wishlist.filter(
+        (wishlist) => wishlist.id !== action.payload
+      );
+      window.localStorage.setItem('wishlist', JSON.stringify(state.wishlist))
+    },
+    removeCart(state, action: PayloadAction<number>) {
+      state.carts = state.carts.filter(
         (product) => product.id !== action.payload
       );
-      window.localStorage.setItem('cart', JSON.stringify(state.products))
+      window.localStorage.setItem('cart', JSON.stringify(state.carts))
     },
   },
 });
 
-export const { addProduct,addWishlist, removeProduct } = productSlice.actions;
+export const { addCart,addWishlist,removeWishlist, removeCart } = productSlice.actions;
 
 export default productSlice.reducer;

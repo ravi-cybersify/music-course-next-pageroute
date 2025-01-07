@@ -1,9 +1,9 @@
-import { LoggedUser} from "@/Redux/userSlice";
+import { AllRegisterUser, LoggedUser, UserProps } from "@/Redux/userSlice";
 // import dynamic from 'next/dynamic';
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 // const {LoggedUser} = dynamic(() => import('../Redux/userSlice'), {
 //   ssr: false,
@@ -21,7 +21,12 @@ const Form = () => {
   const pathname = usePathname();
   const navigate = useRouter();
   const dispatch = useDispatch();
-  
+
+  const AllRegisterUsers = useSelector(
+    (state: { user: { AllRegisterUser: UserProps[] } }) =>
+      state.user.AllRegisterUser
+  );
+  console.log("allregisteruser", AllRegisterUsers)
 
   const [errors, setErrors] = useState<User>({
     userName: "",
@@ -37,8 +42,6 @@ const Form = () => {
     phone: "",
     address: "",
   });
-
-  // const [submitting, setSubmitting] = useState(false);
 
   const validateValues = (user: User) => {
     // const errors:User = {};
@@ -63,8 +66,6 @@ const Form = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // console.log("Submited user", user);
-
     if (pathname === "/register") {
       setErrors(validateValues(user));
 
@@ -75,12 +76,25 @@ const Form = () => {
         user.phone !== "" &&
         user.address !== ""
       ) {
+        dispatch(
+          AllRegisterUser({
+            username: user.userName,
+            password: user.password,
+            email: user.email,
+          })
+        );
         localStorage.setItem("user", JSON.stringify(user));
+        toast("Register Successfully !!", {
+          position: "top-center",
+          autoClose: 1000,
+        });
+
         navigate.push("/login");
       }
     }
 
     if (pathname === "/login") {
+      setErrors(validateValues(user));
       const userInfo = localStorage.getItem("user");
       const userData = userInfo ? JSON.parse(userInfo) : "";
 
@@ -90,8 +104,16 @@ const Form = () => {
           user.password === userData.password
         ) {
           dispatch(
-            LoggedUser({ username: user.userName, password: user.password })
+            LoggedUser({
+              username: user.userName,
+              password: user.password,
+              email: user.email,
+            })
           );
+          toast("Login Successfully !!", {
+            position: "top-center",
+            autoClose: 1000,
+          });
           navigate.push("/");
         } else {
           toast("Please Enter Correct Username and Password !!", {

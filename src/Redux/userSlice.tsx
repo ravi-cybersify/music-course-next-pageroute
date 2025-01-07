@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface UserProps {
     username: string;
     password: string;
+    email : string;
 }
 
 interface User {
     User: UserProps[];
+    AllRegisterUser: UserProps[];
 }
 
 // Safely retrieve user data from localStorage
@@ -19,6 +21,7 @@ if (typeof window !== 'undefined') {
 // Define the initial state
 const initialState: User = {
     User: userLogged,
+    AllRegisterUser: []
 };
 
 const userSlice = createSlice({
@@ -29,6 +32,10 @@ const userSlice = createSlice({
             state.User.push(action.payload);
             localStorage.setItem('loggedUser', JSON.stringify(state.User));
         },
+        AllRegisterUser(state, action: PayloadAction<UserProps>){
+            state.AllRegisterUser.push(action.payload);
+            localStorage.setItem('all_register_user', JSON.stringify(state.AllRegisterUser));
+        },
         removeUser(state){
             state.User = [];
             localStorage.setItem('loggedUser', JSON.stringify(state.User));
@@ -36,5 +43,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { LoggedUser,removeUser } = userSlice.actions;
+export const { LoggedUser,AllRegisterUser,removeUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -14,9 +14,8 @@ const Register = () => {
         <Image
           src="/Image/register.avif"
           width={600}
-        //    layout="fill"
-            // objectFit="contain"
           height={300}
+          priority
           alt="security"
           className="rounded-2xl"
         />

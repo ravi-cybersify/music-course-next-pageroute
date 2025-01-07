@@ -14,6 +14,7 @@ const Login = () => {
           src="/Image/login.avif"
           width={600}
           height={300}
+          priority
           alt="security"
           className="rounded-2xl"
         />

@@ -5,18 +5,19 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { usePathname } from "next/navigation";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }: AppProps) {
   const pathname = usePathname();
-  return(
+
+  return (
     <Provider store={store}>
-      <div>
-    <Navbar />
-    <Component {...pageProps} />
-    {
-      pathname === '/register' || pathname === '/login' ? '' :<Footer />
-    }
-    </div>
+      <div className="">
+        <Navbar />
+        <ToastContainer />
+        <Component {...pageProps} />
+        {pathname === "/register" || pathname === "/login" || pathname === '/productdetails' ? "" : <Footer />}
+      </div>
     </Provider>
   );
 }
