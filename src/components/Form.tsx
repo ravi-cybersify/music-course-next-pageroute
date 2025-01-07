@@ -26,7 +26,8 @@ const Form = () => {
     (state: { user: { AllRegisterUser: UserProps[] } }) =>
       state.user.AllRegisterUser
   );
-  console.log("allregisteruser", AllRegisterUsers)
+  console.log("allregisteruser", AllRegisterUsers);
+
 
   const [errors, setErrors] = useState<User>({
     userName: "",
@@ -44,7 +45,6 @@ const Form = () => {
   });
 
   const validateValues = (user: User) => {
-    // const errors:User = {};
     if (!user.userName) {
       errors.userName = "Username is require";
     }
@@ -83,7 +83,7 @@ const Form = () => {
             email: user.email,
           })
         );
-        localStorage.setItem("user", JSON.stringify(user));
+        // localStorage.setItem("user", JSON.stringify(user));
         toast("Register Successfully !!", {
           position: "top-center",
           autoClose: 1000,
@@ -95,39 +95,39 @@ const Form = () => {
 
     if (pathname === "/login") {
       setErrors(validateValues(user));
-      const userInfo = localStorage.getItem("user");
-      const userData = userInfo ? JSON.parse(userInfo) : "";
+      // const userInfo = localStorage.getItem("user");
+      // const userData = userInfo ? JSON.parse(userInfo) : "";
 
-      if (userData !== "") {
-        if (
-          user.userName === userData.userName &&
-          user.password === userData.password
-        ) {
-          dispatch(
-            LoggedUser({
-              username: user.userName,
-              password: user.password,
-              email: user.email,
-            })
-          );
-          toast("Login Successfully !!", {
-            position: "top-center",
-            autoClose: 1000,
-          });
-          navigate.push("/");
-        } else {
-          toast("Please Enter Correct Username and Password !!", {
-            position: "top-center",
-            autoClose: 1000,
-          });
-        }
+      if (AllRegisterUsers.length !== 0) {
+        const userData =  AllRegisterUsers.filter((regUser:UserProps)=> regUser.username === user.userName && regUser.password === user.password )
+         console.log("object", userData); 
+          if(userData.length !== 0){
+              dispatch(
+                LoggedUser({
+                  username: user.userName,
+                  password: user.password,
+                  email: user.email,
+                })
+              );
+              toast("Login Successfully !!", {
+                position: "top-center",
+                autoClose: 1000,
+              });
+              navigate.push("/");
+            } else {
+              toast("Please Enter Correct Username and Password !!", {
+                position: "top-center",
+                autoClose: 1000,
+              });
+            }
+          
       } else {
         toast("Please Signup Username and Password !!", {
           position: "top-center",
           autoClose: 1000,
         });
       }
-    }
+    }  
 
     setUser({
       userName: "",

@@ -18,10 +18,16 @@ if (typeof window !== 'undefined') {
     userLogged = userInfo ? JSON.parse(userInfo) : [];
 }
 
+let allUsers: UserProps[] = [];
+if (typeof window !== 'undefined') {
+    const userInfo = localStorage.getItem('all_register_user');
+    allUsers = userInfo ? JSON.parse(userInfo) : [];
+}
+
 // Define the initial state
 const initialState: User = {
     User: userLogged,
-    AllRegisterUser: []
+    AllRegisterUser: allUsers,
 };
 
 const userSlice = createSlice({
