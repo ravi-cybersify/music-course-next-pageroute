@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import CoursesData from "../data/music-course.json";
 import Image from "next/image";

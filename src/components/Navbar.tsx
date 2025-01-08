@@ -1,3 +1,4 @@
+'use client'
 import { Data } from "@/Redux/productSlice";
 import { removeUser, UserProps } from "@/Redux/userSlice";
 import Link from "next/link";
@@ -26,13 +27,13 @@ const Navbar = () => {
     dispatch(removeUser());
   };
   return (
-    <nav className="block w-full px-4 py-2 mx-auto text-black shadow-md lg:px-8 lg:py-3 mt-1">
+    <div className="block w-full px-4 py-2 mx-auto text-black shadow-md lg:px-8 lg:py-3 mt-1">
       <div className="flex flex-wrap items-center justify-between mx-20 text-gray-100">
         <div className="flex flex-wrap items-center gap-4 font-semibold">
           <Link
             href="/"
             className="mr-4 block cursor-pointer py-1.5 text-base text-black font-bold"
-          >
+            suppressHydrationWarning >
             E-comm-Web
           </Link>
           <div className="hidden lg:block">
@@ -42,7 +43,7 @@ const Navbar = () => {
                   pathname === "/" ? "text-blue-800" : "text-black"
                 }`}
               >
-                <Link href="/">Home</Link>
+                <Link href="/" suppressHydrationWarning>Home</Link>
               </li>
               <li
                 className={`flex items-center p-1 text-sm gap-x-4 ${
@@ -51,7 +52,7 @@ const Navbar = () => {
               >
                 <Link
                   href={`${loggedUser[0]?.username ? "/product" : "/login"}`}
-                >
+                  suppressHydrationWarning >
                   Products
                 </Link>
               </li>
@@ -60,14 +61,14 @@ const Navbar = () => {
                   pathname === "/about" ? "text-blue-800" : "text-black"
                 }`}
               >
-                <Link href="/about">About</Link>
+                <Link href="/about" suppressHydrationWarning>About</Link>
               </li>
               <li
                 className={`flex items-center p-1 text-sm gap-x-4 ${
                   pathname === "/contact" ? "text-blue-800" : "text-black"
                 }`}
               >
-                <Link href="/contact">Contact us</Link>
+                <Link href="/contact" suppressHydrationWarning>Contact us</Link>
               </li>
             </ul>
           </div>
@@ -76,7 +77,7 @@ const Navbar = () => {
         <div className="flex gap-5 items-center">
           <h1 className="text-black mr-7">{loggedUser[0]?.username}</h1>
           <div className="inline-flex">
-            <Link href={`${loggedUser[0]?.username ? "/wishlist" : "/login"}`}>
+            <Link href={`${loggedUser[0]?.username ? "/wishlist" : "/login"}`} suppressHydrationWarning>
               <button
                 className="relative right-6 rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
@@ -93,7 +94,7 @@ const Navbar = () => {
           </div>
           <div className=" inline-flex">
             {/* Cart Button */}
-            <Link href={`${loggedUser[0]?.username ? "/cart" : "/login"}`}>
+            <Link href={`${loggedUser[0]?.username ? "/cart" : "/login"}`} suppressHydrationWarning>
               <button
                 className="relative right-6 rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button"
@@ -110,7 +111,7 @@ const Navbar = () => {
             </Link>
           </div>
           {loggedUser[0]?.username ? (
-            <Link href={"/login"}>
+            <Link href={"/login"} suppressHydrationWarning>
               <button
                 type="button"
                 onClick={handleLogout}
@@ -121,7 +122,7 @@ const Navbar = () => {
             </Link>
           ) : (
             <div className="flex gap-1">
-              <Link href={"/login"}>
+              <Link href={"/login"} suppressHydrationWarning>
                 <button
                   type="button"
                   className={`font-semibold ${
@@ -132,7 +133,7 @@ const Navbar = () => {
                 </button>
               </Link>
               <span className="text-black font-semibold">/</span>
-              <Link href={"/register"}>
+              <Link href={"/register"} suppressHydrationWarning>
                 <button
                   type="button"
                   className={`font-semibold ${
@@ -146,7 +147,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
