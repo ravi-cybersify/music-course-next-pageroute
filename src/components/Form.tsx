@@ -27,7 +27,7 @@ const Form = () => {
     (state: { user: { AllRegisterUser: UserProps[] } }) =>
       state.user.AllRegisterUser
   );
-  console.log("allregisteruser", AllRegisterUsers);
+  // console.log("allregisteruser", AllRegisterUsers);
 
 
   const [errors, setErrors] = useState<User>({
@@ -79,6 +79,7 @@ const Form = () => {
       ) {
         dispatch(
           AllRegisterUser({
+            userId: Date.now().toString(),
             username: user.userName,
             password: user.password,
             email: user.email,
@@ -101,10 +102,11 @@ const Form = () => {
 
       if (AllRegisterUsers.length !== 0) {
         const userData =  AllRegisterUsers.filter((regUser:UserProps)=> regUser.username === user.userName && regUser.password === user.password )
-         console.log("object", userData); 
+         console.log("userDataaaaa", userData); 
           if(userData.length !== 0){
               dispatch(
                 LoggedUser({
+                  userId: userData[0].userId,
                   username: user.userName,
                   password: user.password,
                   email: user.email,
