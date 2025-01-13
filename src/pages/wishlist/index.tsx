@@ -26,7 +26,8 @@ const Wishlist = () => {
 
   const handleAddToCart = (item: Data) => {
     if (loggedUser[0]?.username) {
-      dispatch(addCart({userId:loggedUser[0].userId , item:item}));
+      dispatch(addCart(item));
+      // dispatch(addCart({userId:loggedUser[0].userId , item:item}));
       toast("Added in Cart Successfully !!", {
         position: "top-center",
         autoClose: 1000,

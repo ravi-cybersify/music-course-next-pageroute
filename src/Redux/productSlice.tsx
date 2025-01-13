@@ -36,14 +36,18 @@ const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    addCart(state, action: PayloadAction<{userId:string, item:Data}>) {
-      const { userId, item } = action.payload;
-      if (!state[userId]) {
-        state[userId] = [];
-      }
-      state[userId].push(item);
-      // state.carts.push(action.payload); 
-      window.localStorage.setItem(`${userId}`, JSON.stringify(state[userId]))
+    // addCart(state, action: PayloadAction<{userId:string, item:Data}>) {
+    //   const { userId, item } = action.payload;
+    //   if (!state[userId]) {
+    //     state[userId] = [];
+    //   }
+    //   state[userId].push(item);
+    //   window.localStorage.setItem(`${userId}`, JSON.stringify(state[userId]))
+    // },
+
+    addCart(state, action: PayloadAction<Data>) {
+      state.carts.push(action.payload);
+      window.localStorage.setItem("cart", JSON.stringify(state.carts));
     },
    
     addWishlist(state,action: PayloadAction<Data>){

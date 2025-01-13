@@ -3,3 +3,17 @@
 @tailwind utilities;
 
 
+ul >.px-4{
+    padding: 0%;
+}
+
+ul > .px-4 [role="button"] {
+    cursor: pointer;
+    padding: 8px 17px;
+    margin: 5px 0px;
+}
+
+.justify-center {
+    justify-content: center;
+    margin-bottom: 12px;
+}

@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Navbar />
         <ToastContainer />
         <Component {...pageProps} />
-        {pathname === "/register" || pathname === "/login" || pathname === '/productdetails' ? "" : <Footer />}
+        {pathname === "/register" || pathname === "/login" || pathname === '/productdetails'|| pathname === "/cart" || pathname === '/wishlist' ? "" : <Footer />}
       </div>
     </Provider>
   );
