@@ -1,31 +1,34 @@
-import React from 'react';
-// import gsap from 'gsap';
-// import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
-
-
-// Register the scrambleText plugin
-// gsap.registerPlugin(ScrambleTextPlugin);
+import gsap from 'gsap';
+import React, { useEffect, useRef } from 'react';
 
 const FirstHome = () => {
-  // useEffect(() => {
-  //   const tl = gsap.timeline({ defaults: { duration: 2, ease: "none" } });
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const spanRef = useRef<HTMLSpanElement>(null);
 
-  //   tl.to("#scramble", {
-  //     duration: 3,
-  //     scrambleText: {
-  //       text: "E - comm Web for Music Production Fundamentals.", // Text to animate
-  //       chars: "lowerCase", // Restrict to lowercase letters
-  //       revealDelay: 0.5, // Delay before revealing the next character
-  //       tweenLength: false, // Disable length-based tweening
-  //     },
-  //   });
-  // }, []);
+  useEffect(() => {
+    const button = buttonRef.current;
+    const span = spanRef.current;
+
+    if (!button || !span) return; 
+
+    const tl = gsap.timeline({ paused: true });
+
+    tl.to(span, { duration: 0.2, yPercent: -150, ease: "power2.in" });
+    tl.set(span, { yPercent: 150 });
+    tl.to(span, { duration: 0.2, yPercent: 0 });
+
+    const handleMouseEnter = () => tl.play(0);
+    button.addEventListener("mouseenter", handleMouseEnter);
+
+    return () => {
+      button.removeEventListener("mouseenter", handleMouseEnter);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col text-black bg-black text-white pb-20 items-center justify-center mx-auto gap-9">
       <div id="scramble" className="text-5xl font-bold pt-32">
       E - comm Web for Music Production Fundamentals.
-        {/* Initial empty div for the animation */}
       </div>
       <div className="flex flex-col items-center justify-center mx-auto gap-3">
         <p className="w-1/2 text-center">
@@ -43,9 +46,10 @@ const FirstHome = () => {
       <div className="">
         <button
           type="button"
-          className="border px-12 py-3 rounded-2xl font-semibold bg-black text-white"
+          ref={buttonRef}
+          className="explore-button border px-12 py-3 rounded-2xl font-semibold bg-black text-white"
         >
-          Explore
+          <span ref={spanRef}>Explore</span>
         </button>
       </div>
     </div>

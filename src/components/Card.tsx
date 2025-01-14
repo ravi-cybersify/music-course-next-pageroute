@@ -8,11 +8,15 @@ import { UserProps } from "@/Redux/userSlice";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
+import { Slider } from "@nextui-org/react";
+// import type {SliderValue} from "@nextui-org/react";
 
 const Card = () => {
   const pathname = usePathname();
   const navigate = useRouter();
   const dispatch = useDispatch();
+  const [value, setValue] = React.useState<any>([80, 200]);
+  console.log("object",value)
 
   const loggedUser = useSelector(
     (state: { user: { User: UserProps[] } }) => state.user.User
@@ -61,7 +65,7 @@ const Card = () => {
     }
   };
 
-  // paggination
+  // paggination and search 
 
   const itemsPerPage: number = 6;
 
@@ -74,12 +78,15 @@ const Card = () => {
   });
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const items = CoursesData.courses.filter((item) =>
-    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredItems = CoursesData.courses.filter(
+    (item) =>
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      item.price >= value[0] &&
+      item.price < value[1]
   );
   const offset: number = currentPage * itemsPerPage;
-  const currentItems = items.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+  const currentItems = filteredItems.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredItems.length / itemsPerPage);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -94,7 +101,7 @@ const Card = () => {
   return (
     <div className="">
       {pathname === "/product" && (
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-between mx-20 mb-6 gap-5">
           <input
             type="search"
             placeholder="Search courses..."
@@ -105,6 +112,19 @@ const Card = () => {
             }}
             className="w-full max-w-xl mt-4 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          <div className="">
+            <p className="font-bold text-lg">Filter by Price</p>
+            <Slider
+              className="max-w-lg"
+              formatOptions={{ style: "currency", currency: "USD" }}
+              label="Price Range"
+              maxValue={200}
+              minValue={80}
+              step={10}
+              value={value}
+              onChange={setValue}
+            />
+          </div>
         </div>
       )}
       <div className="grid grid-cols-3 gap-5 ml-20 my-12">

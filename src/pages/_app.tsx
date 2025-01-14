@@ -7,11 +7,13 @@ import type { AppProps } from "next/app";
 import { usePathname } from "next/navigation";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { NextUIProvider } from "@nextui-org/react";
 
 export default function App({ Component, pageProps }: AppProps) {
   const pathname = usePathname();
 
   return (
+    <NextUIProvider>
     <Provider store={store}>
       <div className="">
         <Navbar />
@@ -20,5 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
         {pathname === "/register" || pathname === "/login" || pathname === '/productdetails'|| pathname === "/cart" || pathname === '/wishlist' ? "" : <Footer />}
       </div>
     </Provider>
+    </NextUIProvider>
   );
 }

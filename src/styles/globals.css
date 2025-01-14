@@ -17,3 +17,33 @@ ul > .px-4 [role="button"] {
     justify-content: center;
     margin-bottom: 12px;
 }
+
+.explore-button {
+    display: inline-grid;
+    border: 1px solid gray;
+    border-radius: 50px;
+    padding: 10px;
+    width: 150px;
+    margin: 15px 5px;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    background-color: #000;
+    position: relative;
+  }
+  
+  .explore-button span {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .relative > .w-full{
+    height: 14px;
+    border: 2px solid gray;
+    background-color: gray;
+  }
+  .relative > .items-center{
+    color: blue;
+    background-color: aqua;
+  }
