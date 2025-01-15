@@ -6,8 +6,9 @@ import { UserProps } from "@/Redux/userSlice";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
+// import { MdCancel } from "react-icons/md";
 import { PiHandbagSimpleDuotone } from "react-icons/pi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -47,29 +48,37 @@ const Wishlist = () => {
           <FaHeart className="text-green-400" /> My Wishlist
         </h1>
       )}
+        <div className="flex w-[850px] justify-between font-bold mt-6">
+        <p>Product Name</p>
+        <p className="ml-36">Price</p>
+        <p className="mr-36">Instructor</p>
+        </div>
       {wishlistData.length > 0 ? (
         wishlistData?.map((item: Data) => (
-          <div
-            key={item.id}
-            className="w-[820px] relative flex gap-5 my-5 rounded overflow-hidden shadow-lg"
-          >
-            <Image
-              src={item.image}
-              alt={item.title || "Course Image"}
-              width={300}
-              height={100}
-            />
-
-            <div className="px-3 py-4 flex flex-col gap-4">
-              <p className="font-bold text-xl mb-2">{item.title}</p>
-              <p className="text-gray-700 text-base font-bold">
-                Price: $ {item.price}
-              </p>
-              <p className="text-gray-700 text-base font-bold">{item.slug}</p>
+          <div key={item.id} className="w-3/4 relative ">
+            <hr className="border border-gray-200" />
+            <div className="flex justify-between items-center my-5 rounded overflow-hidden">
+              <div className="flex items-center gap-3 w-[410px]">
+                <button
+                  type="button"
+                  onClick={() => handleRemove(item.id)}
+                  className="h-10 flex items-center hover:text-red-400"
+                >
+                  <RiDeleteBin6Line size={20} />
+                </button>
+                <Image
+                  src={item.image}
+                  alt={item.title || "Course Image"}
+                  width={100}
+                  height={10}
+                />
+                <p className="font-semibold text-md mb-2">{item.title}</p>
+              </div>
+              {/* <div className="px-3 py-4 flex gap-20 items-center"> */}
+              <p className="text-gray-700 text-base font-bold">${item.price}</p>
               <p className="text-gray-700 text-base font-bold">
                 {item.instructor}
               </p>
-              {/* <p className="text-gray-700 text-base">{item.description}</p> */}
 
               <div className="flex gap-4">
                 <button
@@ -84,18 +93,16 @@ const Wishlist = () => {
              `}
                   onClick={() => handleAddToCart(item)}
                 >
-                  {isInCart(item.id) ? <PiHandbagSimpleDuotone className="text-green-600" /> : <PiHandbagSimpleDuotone />}
+                  {isInCart(item.id) ? (
+                    <PiHandbagSimpleDuotone className="text-green-600" />
+                  ) : (
+                    <PiHandbagSimpleDuotone />
+                  )}
                   {isInCart(item.id) ? "Added to Cart" : "Add To Cart"}
                 </button>
               </div>
+              {/* </div> */}
             </div>
-            <button
-              type="button"
-              onClick={() => handleRemove(item.id)}
-              className="h-10 absolute right-10 flex items-center hover:text-gray-400"
-            >
-              <MdCancel size={20} />
-            </button>
           </div>
         ))
       ) : (
