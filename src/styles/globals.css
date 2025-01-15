@@ -39,11 +39,15 @@ ul > .px-4 [role="button"] {
   }
   
   .relative > .w-full{
-    height: 14px;
+    margin-top: 5px;
+    height: 10px;
     border: 2px solid gray;
-    background-color: gray;
+    /* background-color: gray; */
   }
   .relative > .items-center{
     color: blue;
-    background-color: aqua;
+    background-color: rgb(0, 47, 255);
+    width: 20px;
+    height: 20px;
+    top: 4px;
   }
