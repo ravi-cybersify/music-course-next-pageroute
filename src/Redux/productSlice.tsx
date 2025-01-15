@@ -9,6 +9,7 @@ export interface Data {
     instructor: string;
     isFeatured: boolean;
     image: string;
+    quantity: number;
   }
 
 export interface ProductProps {
@@ -66,9 +67,26 @@ const productSlice = createSlice({
       );
       window.localStorage.setItem('cart', JSON.stringify(state.carts))
     },
+    updateIncQuantiy(state,action:PayloadAction<{ id: number; quantity: number }>){
+      const { id, quantity } = action.payload;
+      const item = state.carts.find(item=> item.id === id)
+      if(item){
+        item.quantity = quantity ;
+        // item.price = quantity * item.price;
+      }
+    },
+    updateDecQuantiy(state,action:PayloadAction<{ id: number; quantity: number }>){
+      const { id, quantity } = action.payload;
+      const item = state.carts.find(item=> item.id === id)
+      if(item){
+        item.quantity = quantity ;
+        // item.price = quantity * item.price;
+      }
+    },
+    
   },
 });
 
-export const { addCart,addWishlist,removeWishlist, removeCart } = productSlice.actions;
+export const { addCart,addWishlist,removeWishlist, removeCart,updateIncQuantiy,updateDecQuantiy } = productSlice.actions;
 
 export default productSlice.reducer;

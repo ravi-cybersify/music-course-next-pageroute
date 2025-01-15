@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CoursesData from "../data/music-course.json";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -7,16 +7,27 @@ import { addCart, addWishlist, Data } from "@/Redux/productSlice";
 import { UserProps } from "@/Redux/userSlice";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import ReactPaginate from "react-paginate";
-import { Slider } from "@nextui-org/react";
-// import type {SliderValue} from "@nextui-org/react";
+import Search from "./Search";
+import Filter from "./Filter";
+import Pagination from "./Pagination";
 
 const Card = () => {
   const pathname = usePathname();
   const navigate = useRouter();
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState<any>([80, 200]);
-  console.log("object",value)
+  const [value, setValue] = useState<number[]>([90, 200]);     //pagination
+  const [searchQuery, setSearchQuery] = useState<string>("");   //search
+  const [currentPage, setCurrentPage] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      const storedPage = localStorage.getItem("currentsPage");
+      return storedPage ? JSON.parse(storedPage) : 0;
+    }
+    return 0;
+  });
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    setValue(newValue as number[]);
+  };
 
   const loggedUser = useSelector(
     (state: { user: { User: UserProps[] } }) => state.user.User
@@ -27,14 +38,13 @@ const Card = () => {
   const wishlistData = useSelector(
     (state: { product: { wishlist: Data[] } }) => state.product.wishlist
   );
+
   const isInCart = (id: number) => !!cartData.find((data) => data.id === id);
-  const isInWishlist = (id: number) =>
-    !!wishlistData.find((data) => data.id === id);
+  const isInWishlist = (id: number) => !!wishlistData.find((data) => data.id === id);
 
   const addCartData = (item: Data) => {
     if (loggedUser[0]?.username) {
       dispatch(addCart(item));
-      // dispatch(addCart({userId:loggedUser[0].userId , item:item}));    //for multiple users cart
       toast("Added in Cart Successfully !!", {
         position: "top-center",
         autoClose: 1000,
@@ -65,69 +75,36 @@ const Card = () => {
     }
   };
 
-  // paggination and search 
+
+  //pagination and search and filter 
 
   const itemsPerPage: number = 6;
-
-  const [currentPage, setCurrentPage] = useState<number>(() => {
-    if (typeof window !== "undefined") {
-      const storedPage = localStorage.getItem("currentsPage");
-      return storedPage ? JSON.parse(storedPage) : 0;
-    }
-    return 0;
-  });
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
   const filteredItems = CoursesData.courses.filter(
     (item) =>
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
       item.price >= value[0] &&
       item.price < value[1]
   );
-  const offset: number = currentPage * itemsPerPage;
-  const currentItems = filteredItems.slice(offset, offset + itemsPerPage);
+  const startitem: number = currentPage * itemsPerPage;
+  const currentItems = filteredItems.slice(startitem, startitem + itemsPerPage);
   const pageCount = Math.ceil(filteredItems.length / itemsPerPage);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("currentsPage", JSON.stringify(currentPage));
-    }
-  }, [currentPage]);
 
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("currentsPage", JSON.stringify(event.selected));
+    }
   };
 
   return (
     <div className="">
       {pathname === "/product" && (
-        <div className="flex justify-between mx-20 mb-6 gap-5">
-          <input
-            type="search"
-            placeholder="Search courses..."
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(0);
-            }}
-            className="w-full max-w-xl mt-4 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <div className="">
-            <p className="font-bold text-lg">Filter by Price</p>
-            <Slider
-              className="max-w-lg"
-              formatOptions={{ style: "currency", currency: "USD" }}
-              label="Price Range"
-              maxValue={200}
-              minValue={80}
-              step={10}
-              value={value}
-              onChange={setValue}
-            />
-          </div>
+        <div className="flex justify-between mx-28 gap-5">
+          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          <Filter value={value} handleChange={handleChange} />
         </div>
       )}
-      <div className="grid grid-cols-3 gap-5 ml-20 my-12">
+      <div className="grid grid-cols-3 gap-5 ml-20 my-6">
         {currentItems.map((item: Data) => (
           <div
             key={item.id}
@@ -194,24 +171,11 @@ const Card = () => {
       </div>
 
       {pathname === "/product" && (
-        <div className="mt-8">
-          <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            // breakLabel={"..."}
-            pageCount={pageCount}
-            // marginPagesDisplayed={2}
-            // pageRangeDisplayed={3}
-            forcePage={currentPage}
-            onPageChange={handlePageClick}
-            containerClassName="flex justify-center items-center space-x-2"
-            pageClassName="px-4 py-2 border rounded hover:bg-gray-200"
-            activeClassName="bg-blue-500 text-white"
-            previousClassName="px-4 py-2 border rounded hover:bg-gray-200"
-            nextClassName="px-4 py-2 border rounded hover:bg-gray-200"
-            disabledClassName="opacity-50 cursor-not-allowed"
-          />
-        </div>
+        <Pagination
+          pageCount={pageCount}
+          currentPage={currentPage}
+          handlePageClick={handlePageClick}
+        />
       )}
     </div>
   );

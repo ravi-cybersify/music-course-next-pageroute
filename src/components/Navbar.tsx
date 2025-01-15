@@ -75,7 +75,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex gap-5 items-center">
-          <h1 className="text-black mr-7">{loggedUser[0]?.username}</h1>
+          <h1 className="text-black mr-7 font-semibold text-md">{loggedUser[0]?.username}</h1>
           <div className="inline-flex">
             <Link href={`${loggedUser[0]?.username ? "/wishlist" : "/login"}`} suppressHydrationWarning>
               <button

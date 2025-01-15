@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserProps } from "@/Redux/userSlice";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { FaHeart } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
+import { PiHandbagSimpleDuotone } from "react-icons/pi";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -40,21 +43,21 @@ const Wishlist = () => {
   return (
     <div className="flex flex-col justify-center items-center mb-10">
       {wishlistData.length > 0 && (
-        <h1 className="text-center ml-20 my-10 text-4xl font-bold">
-          Wishlist Page
+        <h1 className="flex items-center gap-2 ml-20 my-6 text-4xl font-bold">
+          <FaHeart className="text-green-400" /> My Wishlist
         </h1>
       )}
       {wishlistData.length > 0 ? (
         wishlistData?.map((item: Data) => (
           <div
             key={item.id}
-            className="w-3/4 flex gap-5 my-5 rounded overflow-hidden shadow-lg"
+            className="w-[820px] relative flex gap-5 my-5 rounded overflow-hidden shadow-lg"
           >
             <Image
               src={item.image}
               alt={item.title || "Course Image"}
-              width={500}
-              height={500}
+              width={300}
+              height={100}
             />
 
             <div className="px-3 py-4 flex flex-col gap-4">
@@ -66,32 +69,33 @@ const Wishlist = () => {
               <p className="text-gray-700 text-base font-bold">
                 {item.instructor}
               </p>
-              <p className="text-gray-700 text-base">{item.description}</p>
+              {/* <p className="text-gray-700 text-base">{item.description}</p> */}
 
               <div className="flex gap-4">
                 <button
                   type="button"
                   disabled={!!(isInCart(item.id) && loggedUser[0]?.username)}
-                  className={`text-white  px-3 py-2 rounded-xl flex items-center
+                  className={`flex gap-1 items-center
                ${
                  isInCart(item.id) && loggedUser[0]?.username
-                   ? "bg-gray-400 cursor-not-allowed"
-                   : "bg-gray-800 cursor-pointer"
+                   ? "cursor-not-allowed"
+                   : "hover:text-gray-600 cursor-pointer"
                }
              `}
                   onClick={() => handleAddToCart(item)}
                 >
+                  {isInCart(item.id) ? <PiHandbagSimpleDuotone className="text-green-600" /> : <PiHandbagSimpleDuotone />}
                   {isInCart(item.id) ? "Added to Cart" : "Add To Cart"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleRemove(item.id)}
-                  className="text-white bg-red-500 px-3 rounded-xl w-20 flex items-center "
-                >
-                  Remove
                 </button>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => handleRemove(item.id)}
+              className="h-10 absolute right-10 flex items-center hover:text-gray-400"
+            >
+              <MdCancel size={20} />
+            </button>
           </div>
         ))
       ) : (

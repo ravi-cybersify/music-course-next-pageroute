@@ -8,7 +8,8 @@
         "price": 99.99,
         "instructor": "John Doe",
         "isFeatured": true,
-        "image": "/courses/guitar.jpg" 
+        "image": "/courses/guitar.jpg" ,
+        "quantity":1
       },
       {
         "id": 2,
@@ -18,7 +19,8 @@
         "price": 109.99,
         "instructor": "Jane Smith",
         "isFeatured": false,
-        "image": "/courses/piano.jpg" 
+        "image": "/courses/piano.jpg" ,
+        "quantity":1
       },
       {
         "id": 3,
@@ -28,7 +30,8 @@
         "price": 119.99,
         "instructor": "Emily Johnson",
         "isFeatured": true,
-        "image": "/courses/vocalist.jpg" 
+        "image": "/courses/vocalist.jpg" ,
+        "quantity":1
       },
       {
         "id": 4,
@@ -38,7 +41,8 @@
         "price": 129.99,
         "instructor": "Mike Brown",
         "isFeatured": false,
-        "image": "/courses/drumming.jpg"
+        "image": "/courses/drumming.jpg",
+        "quantity":1
       },
       {
         "id": 5,
@@ -48,7 +52,8 @@
         "price": 139.99,
         "instructor": "Chris Davis",
         "isFeatured": false,
-        "image": "/courses/jazz.jpg"
+        "image": "/courses/jazz.jpg",
+        "quantity":1
       },
       {
         "id": 6,
@@ -58,7 +63,8 @@
         "price": 149.99,
         "instructor": "Alex Wilson",
         "isFeatured": true,
-        "image": "/courses/music-prod.jpg"
+        "image": "/courses/music-prod.jpg",
+        "quantity":1
       },
       {
         "id": 7,
@@ -68,7 +74,8 @@
         "price": 159.99,
         "instructor": "Samantha Miller",
         "isFeatured": false,
-        "image": "/courses/song-writing.jpg"
+        "image": "/courses/song-writing.jpg",
+        "quantity":1
       },
       {
         "id": 8,
@@ -78,7 +85,8 @@
         "price": 169.99,
         "instructor": "Luke Harris",
         "isFeatured": true,
-        "image": "/courses/music-prod.jpg"
+        "image": "/courses/music-prod.jpg",
+        "quantity":1
       },
       {
         "id": 9,
@@ -88,7 +96,8 @@
         "price": 179.99,
         "instructor": "Grace Lee",
         "isFeatured": false,
-        "image": "/courses/classical-music.jpg"
+        "image": "/courses/classical-music.jpg",
+        "quantity":1
       },
       {
         "id": 10,
@@ -98,7 +107,8 @@
         "price": 189.99,
         "instructor": "Ethan Moore",
         "isFeatured": true,
-        "image": "/courses/blues.jpg"
+        "image": "/courses/blues.jpg",
+        "quantity":1
       },
       {
         "id": 11,
@@ -108,7 +118,8 @@
         "price": 99.99,
         "instructor": "John Doe",
         "isFeatured": true,
-        "image": "/courses/guitar.jpg" 
+        "image": "/courses/guitar.jpg",
+        "quantity":1
       },
       {
         "id": 12,
@@ -118,7 +129,8 @@
         "price": 109.99,
         "instructor": "Jane Smith",
         "isFeatured": false,
-        "image": "/courses/piano.jpg" 
+        "image": "/courses/piano.jpg",
+        "quantity":1
       },
       {
         "id": 13,
@@ -128,7 +140,8 @@
         "price": 119.99,
         "instructor": "Emily Johnson",
         "isFeatured": true,
-        "image": "/courses/vocalist.jpg" 
+        "image": "/courses/vocalist.jpg",
+        "quantity":1 
       },
       {
         "id": 14,
@@ -138,7 +151,8 @@
         "price": 129.99,
         "instructor": "Mike Brown",
         "isFeatured": false,
-        "image": "/courses/drumming.jpg"
+        "image": "/courses/drumming.jpg",
+        "quantity":1
       },
       {
         "id": 15,
@@ -148,7 +162,8 @@
         "price": 139.99,
         "instructor": "Chris Davis",
         "isFeatured": false,
-        "image": "/courses/jazz.jpg"
+        "image": "/courses/jazz.jpg",
+        "quantity":1
       },
       {
         "id": 16,
@@ -158,7 +173,8 @@
         "price": 149.99,
         "instructor": "Alex Wilson",
         "isFeatured": true,
-        "image": "/courses/music-prod.jpg"
+        "image": "/courses/music-prod.jpg",
+        "quantity":1
       },
       {
         "id": 17,
@@ -168,7 +184,8 @@
         "price": 159.99,
         "instructor": "Samantha Miller",
         "isFeatured": false,
-        "image": "/courses/song-writing.jpg"
+        "image": "/courses/song-writing.jpg",
+        "quantity":1
       },
       {
         "id": 18,
@@ -178,7 +195,8 @@
         "price": 169.99,
         "instructor": "Luke Harris",
         "isFeatured": true,
-        "image": "/courses/music-prod.jpg"
+        "image": "/courses/music-prod.jpg",
+        "quantity":1
       },
       {
         "id": 19,
@@ -188,7 +206,8 @@
         "price": 179.99,
         "instructor": "Grace Lee",
         "isFeatured": false,
-        "image": "/courses/classical-music.jpg"
+        "image": "/courses/classical-music.jpg",
+        "quantity":1
       },
       {
         "id": 20,
@@ -198,7 +217,8 @@
         "price": 189.99,
         "instructor": "Ethan Moore",
         "isFeatured": true,
-        "image": "/courses/blues.jpg"
+        "image": "/courses/blues.jpg",
+        "quantity":1
       }
     ]
   }
