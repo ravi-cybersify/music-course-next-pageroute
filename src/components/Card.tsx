@@ -3,20 +3,22 @@ import CoursesData from "../data/music-course.json";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { addCart, addWishlist, Data } from "@/Redux/productSlice";
+import { addWishlist, Data } from "@/Redux/productSlice";
 import { UserProps } from "@/Redux/userSlice";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Search from "./Search";
 import Filter from "./Filter";
 import Pagination from "./Pagination";
+import { GoHeart } from "react-icons/go";
+import { FaHeart } from "react-icons/fa6";
 
 const Card = () => {
   const pathname = usePathname();
   const navigate = useRouter();
   const dispatch = useDispatch();
-  const [value, setValue] = useState<number[]>([90, 200]);     //pagination
-  const [searchQuery, setSearchQuery] = useState<string>("");   //search
+  const [value, setValue] = useState<number[]>([90, 200]); //pagination
+  const [searchQuery, setSearchQuery] = useState<string>(""); //search
   const [currentPage, setCurrentPage] = useState<number>(() => {
     if (typeof window !== "undefined") {
       const storedPage = localStorage.getItem("currentsPage");
@@ -32,27 +34,13 @@ const Card = () => {
   const loggedUser = useSelector(
     (state: { user: { User: UserProps[] } }) => state.user.User
   );
-  const cartData = useSelector(
-    (state: { product: { carts: Data[] } }) => state.product.carts
-  );
+
   const wishlistData = useSelector(
     (state: { product: { wishlist: Data[] } }) => state.product.wishlist
   );
 
-  const isInCart = (id: number) => !!cartData.find((data) => data.id === id);
-  const isInWishlist = (id: number) => !!wishlistData.find((data) => data.id === id);
-
-  const addCartData = (item: Data) => {
-    if (loggedUser[0]?.username) {
-      dispatch(addCart(item));
-      toast("Added in Cart Successfully !!", {
-        position: "top-center",
-        autoClose: 1000,
-      });
-    } else {
-      navigate.push("/login");
-    }
-  };
+  const isInWishlist = (id: number) =>
+    !!wishlistData.find((data) => data.id === id);
 
   const addWishlists = (item: Data) => {
     if (loggedUser[0]?.username) {
@@ -75,10 +63,9 @@ const Card = () => {
     }
   };
 
+  //pagination and search and filter
 
-  //pagination and search and filter 
-
-  const itemsPerPage: number = 6;
+  const itemsPerPage: number = 8;
   const filteredItems = CoursesData.courses.filter(
     (item) =>
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -104,66 +91,64 @@ const Card = () => {
           <Filter value={value} handleChange={handleChange} />
         </div>
       )}
-      <div className="grid grid-cols-3 gap-5 ml-20 my-6">
+      <div className="grid grid-cols-4 gap-5 mx-28 my-6">
         {currentItems.map((item: Data) => (
           <div
             key={item.id}
-            className="max-w-sm rounded overflow-hidden shadow-lg"
+            className="max-w-72 rounded overflow-hidden hover:shadow-lg relative"
           >
             <div onClick={() => handleDetails(item)} className="">
-              <Image
-                src={item.image}
-                alt={item.title || "Course Image"}
-                priority
-                width={500}
-                height={500}
-              />
+              <div className="">
+                <Image
+                  src={item.image}
+                  alt={item.title || "Course Image"}
+                  priority
+                  width={500}
+                  height={500}
+                  className="h-80 w-72"
+                />
+              </div>
               <div className="px-3 py-4">
-                <p className="font-bold text-xl mb-2">{item.title}</p>
-                <p className="text-gray-700 text-base font-bold">
-                  Price: $ {item.price}
-                </p>
-                <p className="text-gray-700 text-base font-bold">{item.slug}</p>
-                <p className="text-gray-700 text-base font-bold">
+                <p className="font-semibold text-md">{item.title}</p>
+                <p className="text-gray-700 text-md font-semibold">
                   {item.instructor}
                 </p>
-                <p className="text-gray-700 text-base font-semibold">
-                  {item.description}
+                <p className="text-gray-700 mt-1 text-md font-semibold flex gap-2">
+                  <span className="font-bold text-lg">${item.price}</span>
+                  <span className="line-through text-gray-400">
+                    $
+                    {(
+                      item.price +
+                      Math.floor((item.price * item.discount) / 100)
+                    ).toFixed(2)}
+                  </span>
+                  <span className="text-green-500 font-bold">
+                    {item.discount}% off
+                  </span>
                 </p>
+
+                <p className="text-red-800 font-bold">Only few left</p>
               </div>
             </div>
 
             <div className="">
               <button
                 type="button"
-                disabled={!!(isInCart(item.id) && loggedUser[0]?.username)}
-                className={`text-white mx-auto mb-5 px-2 py-2 font-semibold w-1/2 
-             ${
-               isInCart(item.id) && loggedUser[0]?.username
-                 ? "bg-blue-400 cursor-not-allowed"
-                 : "bg-blue-500 cursor-pointer"
-             }
-           `}
-                onClick={() => addCartData(item)}
-              >
-                {isInCart(item.id) ? "Added to Cart" : "Add To Cart"}
-              </button>
-
-              <button
-                type="button"
                 disabled={!!(isInWishlist(item.id) && loggedUser[0]?.username)}
-                className={`text-white mx-auto mb-5 px-2 py-2 font-semibold w-1/2  
+                className={`text-white absolute top-3 left-60 hover:text-green-300
                ${
                  isInWishlist(item.id) && loggedUser[0]?.username
-                   ? "bg-gray-400 cursor-not-allowed"
-                   : "bg-gray-800 cursor-pointer"
+                   ? "text-green-400"
+                   : "text-gray-200 cursor-pointer"
                }
               `}
                 onClick={() => addWishlists(item)}
               >
-                {isInWishlist(item.id)
-                  ? "Added to wishlist"
-                  : "Add to wishlist"}
+                {isInWishlist(item.id) ? (
+                  <FaHeart size={28} className="text-green-400 " />
+                ) : (
+                  <GoHeart size={28} />
+                )}
               </button>
             </div>
           </div>

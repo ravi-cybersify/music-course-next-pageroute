@@ -10,6 +10,7 @@ export interface Data {
     isFeatured: boolean;
     image: string;
     quantity: number;
+    discount: number;
   }
 
 export interface ProductProps {
