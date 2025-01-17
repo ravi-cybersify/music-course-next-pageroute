@@ -1,4 +1,3 @@
-'use client'
 import { AllRegisterUser, LoggedUser, UserProps } from "@/Redux/userSlice";
 // import dynamic from 'next/dynamic';
 import { usePathname } from "next/navigation";

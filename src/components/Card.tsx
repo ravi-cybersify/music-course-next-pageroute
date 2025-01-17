@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import CoursesData from "../data/music-course.json";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import Filter from "./Filter";
 import Pagination from "./Pagination";
 import { GoHeart } from "react-icons/go";
 import { FaHeart } from "react-icons/fa6";
+import courses from "../data/music-course";
 
 const Card = () => {
   const pathname = usePathname();
@@ -59,14 +59,17 @@ const Card = () => {
       localStorage.setItem("product_details", JSON.stringify(item));
       navigate.push("/productdetails");
     } else {
-      navigate.push("/login");
+      if (loggedUser[0]?.username) {
+        localStorage.removeItem("product_details");
+        navigate.push("/login");
+      }
     }
   };
 
   //pagination and search and filter
 
   const itemsPerPage: number = 8;
-  const filteredItems = CoursesData.courses.filter(
+  const filteredItems = courses.filter(
     (item) =>
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
       item.price >= value[0] &&
@@ -92,7 +95,8 @@ const Card = () => {
         </div>
       )}
       <div className="grid grid-cols-4 gap-5 mx-28 my-6">
-        {currentItems.map((item: Data) => (
+        { (pathname === '/' ? courses?.slice(0,8) : currentItems)
+        .map((item: Data) => (
           <div
             key={item.id}
             className="max-w-72 rounded overflow-hidden hover:shadow-lg relative"

@@ -1,5 +1,4 @@
-{
-    "courses": [
+ const courses = [
       {
         "id": 1,
         "title": "Guitar Fundamentals",
@@ -241,5 +240,5 @@
         "discount": 20
       }
     ]
-  }
   
+    export default courses;

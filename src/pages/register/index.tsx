@@ -1,4 +1,3 @@
-'use client'
 import Form from "@/components/Form";
 import Image from "next/image";
 import React from "react";

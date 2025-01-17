@@ -1,4 +1,3 @@
-'use client'
 import { Data } from "@/Redux/productSlice";
 import { removeUser, UserProps } from "@/Redux/userSlice";
 import Link from "next/link";
