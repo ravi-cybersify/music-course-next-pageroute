@@ -90,7 +90,7 @@ const Form = () => {
           autoClose: 1000,
         });
 
-        navigate.push("/login");
+        navigate.replace("/login"); //when register user then not back to register page when use replace.
       }
     }
 
@@ -115,7 +115,7 @@ const Form = () => {
                 position: "top-center",
                 autoClose: 1000,
               });
-              navigate.push("/");
+              navigate.replace("/"); // when login user then not back to login page when use replace.
             } else {
               toast("Please Enter Correct Username and Password !!", {
                 position: "top-center",
